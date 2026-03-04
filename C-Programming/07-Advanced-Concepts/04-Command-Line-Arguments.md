@@ -10,40 +10,58 @@ int main(int argc, char *argv[]) {
 }
 ```
 
-- **`argc` (Argument Count)**: The number of arguments passed (including the program name).
-- **`argv` (Argument Vector)**: An array of strings containing the arguments.
+-   **`argc` (Argument Count)**: The number of arguments passed (including the program name).
+-   **`argv` (Argument Vector)**: An array of strings containing the arguments.
+    -   `argv[0]`: The program name (e.g., `./myprogram`).
+    -   `argv[1]`: The first user argument.
+    -   `argv[argc]`: Always `NULL` (guaranteed by standard).
 
-## 📝 Example
+## 📝 Example: Simple Parser
 
 ```c
 #include <stdio.h>
+#include <string.h>
 
 int main(int argc, char *argv[]) {
-    printf("Program name: %s\n", argv[0]);
+    if (argc < 2) {
+        printf("Usage: %s <name>\n", argv[0]);
+        return 1;
+    }
 
-    if (argc > 1) {
-        printf("Arguments passed:\n");
-        for (int i = 1; i < argc; i++) {
-            printf("%d: %s\n", i, argv[i]);
-        }
+    if (strcmp(argv[1], "--help") == 0) {
+        printf("Help message...\n");
     } else {
-        printf("No arguments passed.\n");
+        printf("Hello, %s!\n", argv[1]);
     }
     return 0;
 }
 ```
 
-**Running the program:**
-```bash
-./myprogram arg1 arg2
-```
+## 🛠️ Parsing Options with `getopt` (POSIX)
+On Unix/Linux, `getopt` (`<unistd.h>`) simplifies parsing flags like `-v` or `-f file`.
 
-**Output:**
-```
-Program name: ./myprogram
-Arguments passed:
-1: arg1
-2: arg2
+```c
+#include <unistd.h>
+#include <stdio.h>
+
+int main(int argc, char *argv[]) {
+    int opt;
+    // Parsing options: -v (verbose), -f (filename, requires arg)
+    while ((opt = getopt(argc, argv, "vf:")) != -1) {
+        switch (opt) {
+            case 'v':
+                printf("Verbose mode on\n");
+                break;
+            case 'f':
+                printf("Filename: %s\n", optarg);
+                break;
+            default: /* '?' */
+                fprintf(stderr, "Usage: %s [-v] [-f file]\n", argv[0]);
+                return 1;
+        }
+    }
+    return 0;
+}
 ```
 
 ---

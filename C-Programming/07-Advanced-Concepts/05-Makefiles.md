@@ -9,15 +9,16 @@ Create a file named `Makefile` (no extension).
 ```makefile
 # Variables
 CC = gcc
-CFLAGS = -Wall -g
+CFLAGS = -Wall -Wextra -std=c11 -g
+OBJ = main.o utils.o
 
 # Target: Dependencies
 # [TAB] Command
 
 all: myprogram
 
-myprogram: main.o utils.o
-	$(CC) $(CFLAGS) -o myprogram main.o utils.o
+myprogram: $(OBJ)
+	$(CC) $(CFLAGS) -o myprogram $(OBJ)
 
 main.o: main.c
 	$(CC) $(CFLAGS) -c main.c
@@ -25,6 +26,8 @@ main.o: main.c
 utils.o: utils.c
 	$(CC) $(CFLAGS) -c utils.c
 
+# .PHONY ensures 'clean' runs even if a file named 'clean' exists
+.PHONY: clean
 clean:
 	rm -f *.o myprogram
 ```

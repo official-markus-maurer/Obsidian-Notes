@@ -29,13 +29,17 @@ Pointers are one of the most powerful features of C, allowing direct memory acce
 6. **[[06-Memory-Layout|Memory Layout]]**
    - Text, Data, BSS, Stack, Heap
 
-7. **[[07-Stack-vs-Heap|Stack vs. Heap]]**
-   - Deep dive into memory management differences
+7. **[[../../Shared-Concepts/Memory-Management/01-Stack-vs-Heap|Stack vs. Heap (Shared)]]**
+   - Deep dive into memory management differences (moved to Shared Concepts).
 
 8. **[[08-Advanced-Pointers|Advanced Pointers]]**
    - Double Pointers (`**ptr`)
    - Void Pointers (`void*`)
    - Const Correctness (`const int*`, `int *const`)
+
+9. **[[09-Memory-Pools|Memory Pools (Arenas)]]**
+   - Fast allocation
+   - Fragmentation prevention
 
 ---
 **Next Section**: [[../05-Structures-and-Unions/00-Index|Structures and Unions]]

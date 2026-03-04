@@ -21,5 +21,9 @@ Unlike higher-level languages like Python or Java, C does not have built-in coll
     -   Hash Functions
     -   Collision Resolution (Chaining vs Open Addressing)
 
+5.  **[[05-Generic-Structures|Generic Data Structures]]**
+    -   Using `void*`
+    -   Macro-based Generics
+
 ---
 **Next Section**: [[../12-Network-Programming/00-Index|Network Programming]]

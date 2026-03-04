@@ -8,33 +8,56 @@ Static memory allocation (like `int arr[10];`) has a fixed size at compile time.
 Allocates a block of memory of specified size (in bytes). Returns a `void*` pointer to the first byte. The memory is uninitialized (contains garbage values).
 
 ```c
-int *ptr = (int*) malloc(5 * sizeof(int)); // Allocates space for 5 integers
+// Note: In C, you don't need to cast void*. It's implicitly converted.
+int *ptr = malloc(5 * sizeof(int)); 
+if (ptr == NULL) { /* Handle error */ }
 ```
 
 ### 2. `calloc` (Contiguous Allocation)
-Allocates memory for an array of elements, initializes them to zero.
+Allocates memory for an array of elements, initializes them to **zero**. Safer than malloc for initialization.
 
 ```c
-int *ptr = (int*) calloc(5, sizeof(int)); // Allocates space for 5 integers, all 0
+int *ptr = calloc(5, sizeof(int)); // 5 integers, all 0
 ```
 
 ### 3. `realloc` (Re-allocation)
 Changes the size of previously allocated memory.
+-   If larger, new space is uninitialized.
+-   If smaller, data is truncated.
+-   If it fails, it returns `NULL` but **leaves the original block untouched**.
 
 ```c
-ptr = (int*) realloc(ptr, 10 * sizeof(int)); // Resizes to hold 10 integers
+int *new_ptr = realloc(ptr, 10 * sizeof(int));
+if (new_ptr != NULL) {
+    ptr = new_ptr;
+} else {
+    // Allocation failed, ptr is still valid
+}
 ```
 
 ### 4. `free` (Free Memory)
-Deallocates the memory previously allocated by `malloc`, `calloc`, or `realloc`. This is crucial to prevent memory leaks.
+Deallocates the memory. Passing `NULL` to `free` is safe (it does nothing).
 
 ```c
 free(ptr);
-ptr = NULL; // Good practice to prevent dangling pointers
+ptr = NULL; // Good practice to prevent double-free
 ```
 
-## ⚠️ Memory Leaks
-A memory leak occurs when you allocate memory but forget to free it. The memory remains occupied until the program terminates, which can exhaust system resources in long-running programs.
+## 📜 C11: Aligned Allocation
+Sometimes hardware (SIMD, Cache lines) requires memory to be aligned to specific boundaries (e.g., 64 bytes).
+
+```c
+#include <stdlib.h>
+// Size must be a multiple of alignment
+void *p = aligned_alloc(64, 1024); 
+free(p);
+```
+
+## ⚠️ Common Pitfalls
+1.  **Memory Leaks**: Forgetting to `free()`.
+2.  **Double Free**: Calling `free()` twice on the same pointer.
+3.  **Dangling Pointer**: Using a pointer after `free()`.
+4.  **Fragmentation**: Frequent alloc/free can fragment the heap.
 
 ---
 [[00-Index|Back to Pointers Index]]

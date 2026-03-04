@@ -32,5 +32,19 @@ This section covers more complex features of C that give you fine-grained contro
    - `volatile`
    - `restrict`
 
+8. **[[08-C-Standards|C Standards History]]**
+   - K&R, C89, C99, C11, C23
+
+9. **[[09-CMake-Basics|CMake Basics]]**
+   - `CMakeLists.txt`
+   - Building and Linking
+
+10. **[[10-Advanced-Preprocessor|Advanced Preprocessor]]**
+    - Variadic Macros (`__VA_ARGS__`)
+    - X Macros (Code Generation)
+
+11. **[[11-C23-Features|C23 Features (New)]]**
+    - `auto`, `#embed`, `nullptr`, `typeof`
+
 ---
 **Next Section**: [[../08-Projects/00-Index|Projects]]

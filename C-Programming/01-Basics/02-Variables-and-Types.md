@@ -5,59 +5,66 @@ A variable is a container for storing data values. In C, variables must be decla
 
 ### Syntax
 ```c
-type variable_name = value;
-```
+// C89: Declarations must be at the start of a block
+void func() {
+    int x;
+    x = 5;
+}
 
-### Naming Rules
-- Must begin with a letter or underscore (`_`).
-- Can contain letters, digits, and underscores.
-- Case-sensitive (`myVar` and `myvar` are different).
-- Cannot use reserved keywords (e.g., `int`, `return`, `if`).
-
-## 📊 Primitive Data Types
-
-| Type | Description | Format Specifier | Size (Typical) |
-|------|-------------|------------------|----------------|
-| `int` | Integer (whole number) | `%d` or `%i` | 4 bytes |
-| `float` | Floating point number | `%f` | 4 bytes |
-| `double` | Double precision float | `%lf` | 8 bytes |
-| `char` | Single character | `%c` | 1 byte |
-| `void` | Empty/No value | - | - |
-
-### Example
-
-```c
-#include <stdio.h>
-
-int main() {
-    int age = 25;
-    float height = 5.9;
-    char grade = 'A';
-    double pi = 3.14159265359;
-
-    printf("Age: %d\n", age);
-    printf("Height: %f\n", height);
-    printf("Grade: %c\n", grade);
-    printf("Pi: %lf\n", pi);
-
-    return 0;
+// C99+: Declarations can be anywhere
+void func() {
+    func_call();
+    int x = 5;
 }
 ```
 
-## 📏 Sizeof Operator
-You can check the size of a data type using the `sizeof()` operator.
+## 📊 Primitive Data Types
+
+| Type | Description | Format | Size (Typical) | Standard |
+|------|-------------|--------|----------------|----------|
+| `int` | Integer | `%d` | 4 bytes | C89 |
+| `char` | Character | `%c` | 1 byte | C89 |
+| `float` | Float | `%f` | 4 bytes | C89 |
+| `double` | Double | `%lf` | 8 bytes | C89 |
+| `long long` | Big Int | `%lld` | 8 bytes | **C99** |
+| `_Bool` | Boolean | `%d` | 1 byte | **C99** |
+
+## 🧠 Boolean Types
+### Pre-C99
+C didn't have a boolean type. Programmers used `int` (0 is false, non-zero is true).
+
+### C99 (`<stdbool.h>`)
+Introduced `_Bool` type and macros `bool`, `true`, `false`.
+```c
+#include <stdbool.h>
+bool isValid = true;
+```
+
+### C23
+`bool`, `true`, and `false` are now keywords. No header needed.
+
+## 📏 Fixed-Width Integers (C99)
+Included via `<stdint.h>`. Essential for systems programming where exact size matters.
+
+| Type | Size | Format (via `<inttypes.h>`) |
+|------|------|-----------------------------|
+| `int8_t` | 1 byte | `PRId8` |
+| `uint8_t` | 1 byte (unsigned) | `PRIu8` |
+| `int32_t` | 4 bytes | `PRId32` |
+| `uint64_t` | 8 bytes | `PRIu64` |
 
 ```c
-printf("Size of int: %lu bytes\n", sizeof(int));
+#include <stdint.h>
+#include <inttypes.h>
+
+uint64_t big_num = 9000000000;
+printf("Num: %" PRIu64 "\n", big_num);
 ```
 
 ## 🔒 Constants
-Constants are variables whose values cannot be changed.
-
-```c
-const int DAYS_IN_WEEK = 7;
-#define PI 3.14159 // Preprocessor directive constant
-```
+-   `const int x = 5;`: Read-only variable.
+-   `#define PI 3.14`: Preprocessor macro (text replacement).
+-   `enum { RED, GREEN }`: Enumerated constants.
 
 ---
 [[00-Index|Back to Basics Index]]

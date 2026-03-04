@@ -9,7 +9,7 @@ The `volatile` keyword tells the compiler that a variable's value can change at 
 ### When to use?
 1.  **Memory-mapped I/O**: Interacting with hardware registers.
 2.  **Interrupt Service Routines (ISRs)**: Variables modified by an interrupt.
-3.  **Multithreading**: Flags shared between threads (though `atomic` is better in C11).
+3.  **Multithreading**: Flags shared between threads (though `_Atomic` is better in C11).
 
 ### What it does
 It **disables optimization** for that variable. The compiler will force a read from memory every time the variable is accessed, instead of caching it in a register.
@@ -39,6 +39,21 @@ void *memcpy(void *restrict dest, const void *restrict src, size_t n);
 ```
 
 If you call `memcpy` with overlapping ranges, behavior is undefined. That's why `memmove` exists (it handles overlap but is potentially slower).
+
+## ⚛️ `_Atomic` (C11)
+
+Indicates that access to the variable is atomic (indivisible). This is crucial for lock-free concurrency.
+
+```c
+#include <stdatomic.h>
+
+_Atomic int counter = 0;
+
+void increment() {
+    counter++; // Thread-safe increment
+}
+```
+Unlike `volatile`, `_Atomic` guarantees **atomicity** and **memory ordering** (preventing CPU instruction reordering), which `volatile` does not.
 
 ---
 [[00-Index|Back to Advanced Index]]

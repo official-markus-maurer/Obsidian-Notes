@@ -47,6 +47,43 @@ int main() {
 }
 ```
 
+## 🚥 Condition Variables
+
+Condition variables allow threads to wait until a certain condition is true. They are always used with a mutex.
+
+### Functions
+-   `pthread_cond_wait`: Sleep until signaled. Releases the mutex while sleeping and re-acquires it when waking up.
+-   `pthread_cond_signal`: Wake up one waiting thread.
+-   `pthread_cond_broadcast`: Wake up all waiting threads.
+
+### Example: Producer-Consumer
+
+```c
+pthread_mutex_t lock;
+pthread_cond_t cond;
+int ready = 0;
+
+void* producer(void* arg) {
+    pthread_mutex_lock(&lock);
+    ready = 1; // Produce
+    printf("Producer: Data ready.\n");
+    pthread_cond_signal(&cond); // Signal consumer
+    pthread_mutex_unlock(&lock);
+    return NULL;
+}
+
+void* consumer(void* arg) {
+    pthread_mutex_lock(&lock);
+    while (ready == 0) {
+        printf("Consumer: Waiting...\n");
+        pthread_cond_wait(&cond, &lock); // Wait (releases lock)
+    }
+    printf("Consumer: Data received!\n");
+    pthread_mutex_unlock(&lock);
+    return NULL;
+}
+```
+
 ### 💀 Deadlock
 Occurs when two threads are waiting for each other to release a lock.
 -   Thread A holds Lock 1, waits for Lock 2.

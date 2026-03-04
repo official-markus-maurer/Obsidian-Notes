@@ -4,12 +4,16 @@ C gives you direct access to memory, which is powerful but dangerous. Security v
 
 ## 📋 Topics
 
-1.  **[[01-Buffer-Overflows|Buffer Overflows]]**
-    -   Stack-based overflows
-    -   Heap-based overflows
-    -   Prevention (`strncpy`, `snprintf`)
+1.  **[[../../Shared-Concepts/Security/01-CIA-Triad|Security Principles (Shared)]]**
+    -   CIA Triad (Confidentiality, Integrity, Availability).
 
-2.  **[[02-Format-String-Attacks|Format String Vulnerabilities]]**
+2.  **[[../../Shared-Concepts/Security/02-Buffer-Overflows|Buffer Overflows (Shared)]]**
+    -   Conceptual overview and prevention.
+
+3.  **[[01-Buffer-Overflows|Implementing Buffer Overflow Protection]]**
+    -   C-specific techniques (`strncpy`, Stack Canaries).
+
+4.  **[[02-Format-String-Attacks|Format String Vulnerabilities]]**
     -   The danger of `printf(user_input)`
 
 3.  **[[03-Integer-Overflows|Integer Overflows]]**
@@ -17,4 +21,4 @@ C gives you direct access to memory, which is powerful but dangerous. Security v
     -   Impact on memory allocation
 
 ---
-**Next Section**: [[../Resources/00-Index|Resources]]
+**Next Section**: [[../15-System-Programming/00-Index|System Programming]]

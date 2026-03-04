@@ -4,18 +4,19 @@ Modern CPUs have multiple cores, allowing programs to execute multiple tasks sim
 
 ## 📋 Topics
 
-1.  **[[01-Introduction-to-Threads|Introduction to Threads]]**
-    -   Processes vs. Threads
-    -   Parallelism vs. Concurrency
+1.  **[[../../Shared-Concepts/Concurrency/01-Processes-vs-Threads|Processes vs Threads (Shared)]]**
+    -   Conceptual differences (moved to Shared Concepts).
 
 2.  **[[02-Pthreads|Pthreads (POSIX Threads)]]**
-    -   Creating and Joining Threads
-    -   Passing Arguments
+    -   Standard on Linux/macOS.
+    -   Creating and Joining Threads.
 
-3.  **[[03-Synchronization|Synchronization]]**
-    -   Race Conditions
-    -   Mutexes (`pthread_mutex`)
-    -   Condition Variables
+3.  **[[04-C11-Threads|C11 Threads]]**
+    -   Standard C threading (`<threads.h>`).
+    -   More portable but less powerful than Pthreads.
+
+4.  **[[../../Shared-Concepts/Concurrency/02-Synchronization|Synchronization (Shared)]]**
+    -   Mutexes, Semaphores (moved to Shared Concepts).
 
 ---
-**Next Section**: [[../07-Advanced-Concepts/00-Index|Advanced Concepts]]
+[[../07-Advanced-Concepts/00-Index|Next: Advanced Concepts]]

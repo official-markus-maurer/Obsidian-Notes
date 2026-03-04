@@ -1,32 +1,33 @@
-# Resources
-
-Here are some excellent resources to further your C programming journey.
+# C Programming Resources
 
 ## 📚 Books
 
-1. **The C Programming Language (2nd Edition)** by Brian Kernighan and Dennis Ritchie (K&R)
-   - The "bible" of C programming. Concise and authoritative.
-2. **C Programming: A Modern Approach** by K.N. King
-   - More beginner-friendly and comprehensive than K&R.
-3. **Head First C** by David Griffiths and Dawn Griffiths
-   - A visual and interactive way to learn C.
+1.  **The C Programming Language (K&R)** - Kernighan & Ritchie
+    -   The bible. A must-read for the history and basics.
+2.  **C Programming: A Modern Approach** - K. N. King
+    -   The best comprehensive textbook for learning C99.
+3.  **Expert C Programming: Deep C Secrets** - Peter van der Linden
+    -   Advanced, quirky, and deep knowledge about the language.
+4.  **21st Century C** - Ben Klemens
+    -   Modern tools, libraries, and C11 standards.
 
 ## 🌐 Websites
 
-1. **[Learn-C.org](https://www.learn-c.org/)**
-   - Interactive C tutorial.
-2. **[GeeksforGeeks C Programming](https://www.geeksforgeeks.org/c-programming-language/)**
-   - Extensive articles and examples.
-3. **[CPlusPlus.com Reference](http://www.cplusplus.com/reference/clibrary/)**
-   - Excellent reference for the standard C library functions.
-4. **[Beej's Guide to Network Programming](https://beej.us/guide/bgnet/)**
-   - The go-to guide for socket programming in C.
+1.  **cppreference.com** (C section)
+    -   The definitive reference for standard library functions.
+2.  **Beej's Guide to Network Programming**
+    -   Legendary guide for socket programming.
+3.  **SEI CERT C Coding Standard**
+    -   Secure coding rules.
 
 ## 🛠️ Tools
 
-- **Compiler**: GCC (Linux/Windows), Clang (Mac/Linux), MSVC (Windows).
-- **Debugger**: GDB (GNU Debugger).
-- **IDE/Editor**: VS Code, CLion, Vim/Neovim.
+1.  **Compiler Explorer (godbolt.org)**
+    -   See how C code compiles to assembly in real-time.
+2.  **Valgrind**
+    -   Memory debugging.
+3.  **GDB**
+    -   The GNU Debugger.
 
 ---
-[[../00-Start-Here|Back to Home]]
+**[[../00-Start-Here|Back to Roadmap]]**
