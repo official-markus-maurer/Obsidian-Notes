@@ -27,5 +27,11 @@ This section covers the foundational elements of the C language.
    - `scanf` for user input
    - Format specifiers (`%d`, `%f`, `%c`, `%s`)
 
+5. **[[05-Type-Casting|Type Casting]]**
+   - Implicit vs Explicit Conversion
+
+6. **[[06-Storage-Classes|Storage Classes]]**
+   - `auto`, `extern`, `static`, `register`
+
 ---
 **Next Section**: [[../02-Control-Flow/00-Index|Control Flow]]

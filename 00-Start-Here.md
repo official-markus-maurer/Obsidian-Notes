@@ -46,10 +46,18 @@ Follow these sections in order:
    - Error Handling
    - Command Line Arguments
 
+8. **[[08-Projects/00-Index|Projects]]**
+   - Beginner to Advanced project ideas to practice your skills.
+
 9. **[[09-Debugging/00-Index|Debugging & Tools]]**
    - GDB and LLDB Guides
    - Memory Safety with Valgrind
    - Understanding Stack vs. Heap
+
+10. **[[10-Concurrency/00-Index|Concurrency]]**
+    - Threads vs Processes
+    - Pthreads and Synchronization
+    - Mutexes and Race Conditions
 
 ## 🛠️ Prerequisites
 

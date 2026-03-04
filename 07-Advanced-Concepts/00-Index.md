@@ -25,5 +25,12 @@ This section covers more complex features of C that give you fine-grained contro
    - Writing a Makefile
    - Rules and Targets
 
+6. **[[06-Libraries|Libraries]]**
+   - Static (`.a`) vs Dynamic (`.so`/`.dll`)
+
+7. **[[07-Type-Qualifiers|Type Qualifiers]]**
+   - `volatile`
+   - `restrict`
+
 ---
 **Next Section**: [[../08-Projects/00-Index|Projects]]
