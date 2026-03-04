@@ -24,6 +24,27 @@ clang -g program.c -o program
 | **Backtrace** | `bt` | `thread backtrace` (bt) |
 | **List Breakpoints** | `info break` | `breakpoint list` |
 
+## 🕵️ Advanced Commands
+
+### Examining Memory
+-   `memory read <address>`: Read memory at address.
+-   `x <address>`: Short alias for memory read.
+-   `memory read -f x -c 10 <address>`: Read 10 items in hex format.
+
+### Watchpoints
+-   `watchpoint set variable myVar`: Stop when `myVar` is modified.
+-   `watchpoint set expression -- 0x123456`: Stop when address is written to.
+
+### Registers
+-   `register read`: Show general purpose registers.
+-   `register read rax`: Show specific register (e.g., RAX).
+
+### Evaluating Expressions
+You can run arbitrary C code inside the debugger.
+-   `expr int $i = 10`: Create a debugger variable.
+-   `expr func()`: Call a function from your code.
+-   `expr ptr = 0`: Change a value in memory on the fly!
+
 ## 💡 Tips
 
 -   LLDB's output is often more colorful and readable than GDB's default output.

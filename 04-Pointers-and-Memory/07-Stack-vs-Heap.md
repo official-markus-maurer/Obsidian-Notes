@@ -1,4 +1,4 @@
-# Stack vs Heap
+# Stack vs Heap: A Deep Dive
 
 Understanding the difference between the Stack and the Heap is one of the most important concepts in C and low-level programming.
 
@@ -29,7 +29,25 @@ void foo() {
 } // x is destroyed here
 ```
 
-## 🗑️ The Heap (Dynamic Memory)
+### � Stack Overflow
+Occurs when you use more stack memory than is available. Common causes:
+1.  **Infinite Recursion**:
+    ```c
+    void recurse() {
+        int buffer[1000]; // Allocate 4KB each call
+        recurse(); // Infinite loop
+    }
+    ```
+2.  **Huge Local Arrays**:
+    ```c
+    int main() {
+        int hugeArray[1000000]; // ~4MB. Might crash on default settings (Windows stack is often 1MB).
+        return 0;
+    }
+    ```
+    *Fix*: Use `malloc` (Heap) for large arrays.
+
+## �🗑️ The Heap (Dynamic Memory)
 
 Think of the heap as a large pool of free memory.
 -   You ask for a specific amount: `void* ptr = malloc(100);`
@@ -50,6 +68,21 @@ void useIt() {
     free(myInt); // Don't forget to clean up!
 }
 ```
+
+### 🧩 Fragmentation
+Imagine you allocate 3 blocks: A, B, C.
+`[ A ][ B ][ C ]`
+Then you free B.
+`[ A ][   ][ C ]`
+You have a hole. If you try to allocate a block D larger than B, it won't fit there. Over time, memory looks like Swiss cheese, wasting space.
+
+## 🚀 Performance: Cache Locality
+
+**Stack** memory is usually **contiguous** (variables are right next to each other). This is great for CPU caching (Spatial Locality), making access extremely fast.
+
+**Heap** memory can be scattered all over the RAM. Accessing it might cause **Cache Misses**, forcing the CPU to fetch data from the slow main RAM.
+
+> **Rule of Thumb**: Prefer Stack for small, short-lived variables. Use Heap for large objects or data that must outlive the function.
 
 ## ⚠️ Common Pitfall: Returning Pointer to Stack Variable
 

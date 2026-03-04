@@ -18,5 +18,13 @@ Functions are blocks of code that perform specific tasks. They are essential for
    - Base Case and Recursive Case
    - Stack Overflow
 
+4. **[[04-Function-Pointers|Function Pointers]]**
+   - Callbacks
+   - Arrays of Function Pointers
+
+5. **[[05-Variadic-Functions|Variadic Functions]]**
+   - `va_list`, `va_start`, `va_arg`, `va_end`
+   - Implementing functions like `printf`
+
 ---
 **Next Section**: [[../04-Pointers-and-Memory/00-Index|Pointers and Memory]]

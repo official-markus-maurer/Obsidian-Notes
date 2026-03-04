@@ -21,5 +21,9 @@ This section covers more complex features of C that give you fine-grained contro
 4. **[[04-Command-Line-Arguments|Command Line Arguments]]**
    - `argc` and `argv`
 
+5. **[[05-Makefiles|Makefiles & Build Systems]]**
+   - Writing a Makefile
+   - Rules and Targets
+
 ---
 **Next Section**: [[../08-Projects/00-Index|Projects]]

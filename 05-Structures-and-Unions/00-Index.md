@@ -23,5 +23,9 @@ This section covers user-defined data types that allow you to group related data
    - Creating Type Aliases
    - Using `typedef` with Structs
 
+5. **[[05-Memory-Alignment|Memory Alignment]]**
+   - Padding and Packing
+   - Bit Fields
+
 ---
 **Next Section**: [[../06-File-IO/00-Index|File I/O]]

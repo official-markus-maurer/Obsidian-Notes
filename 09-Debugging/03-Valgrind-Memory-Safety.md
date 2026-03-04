@@ -18,15 +18,15 @@ sudo apt install valgrind
 
 2.  **Run with Valgrind**:
     ```bash
-    valgrind --leak-check=full ./myprogram
+    valgrind --leak-check=full --track-origins=yes ./myprogram
     ```
 
 ## 📝 Understanding Output
 
 Valgrind will run your program and report errors.
 
-### 1. Invalid Write/Read
-Usually means you are writing past the end of an array or writing to freed memory.
+### 1. Invalid Write/Read (Heap Corruption)
+Usually means you are writing past the end of an allocated block or accessing freed memory.
 
 ```
 ==12345== Invalid write of size 4
@@ -47,9 +47,28 @@ Means you allocated memory (`malloc`) but didn't free it (`free`).
 
 ### 3. Use of Uninitialized Value
 You are using a variable (e.g., in an `if` condition) that hasn't been set yet.
+*Tip: Use `--track-origins=yes` to see exactly where the uninitialized variable came from.*
 
 ```
 ==12345== Conditional jump or move depends on uninitialised value(s)
+```
+
+### 4. Double Free
+You tried to free the same pointer twice. This is a serious security vulnerability.
+
+```
+==12345== Invalid free() / delete / delete[] / realloc()
+==12345==    at 0x4C2BDEC: free (in /usr/lib/valgrind/vgpreload_memcheck...)
+==12345==    by 0x4005E0: main (test.c:15)
+==12345==  Address 0x5204040 is 0 bytes inside a block of size 10 free'd
+```
+
+### 5. Mismatched Free
+Using `free` on something allocated with `new` (C++) or vice versa. In C, using `free` on a stack variable.
+
+```
+==12345== Invalid free() / delete / delete[] / realloc()
+==12345==  Address 0x... is on thread 1's stack
 ```
 
 ## 💡 Best Practices
@@ -57,6 +76,7 @@ You are using a variable (e.g., in an `if` condition) that hasn't been set yet.
 -   Run Valgrind on **every** C program you write that uses pointers or dynamic memory.
 -   Fix errors in order. Often the first error causes a cascade of others.
 -   Aim for "All heap blocks were freed -- no leaks are possible".
+-   Valgrind slows down your program (20-30x slower), so use it for debugging, not production performance testing.
 
 ---
 [[00-Index|Back to Debugging Index]]
