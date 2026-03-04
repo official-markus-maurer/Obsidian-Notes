@@ -59,6 +59,24 @@ Follow these sections in order:
     - Pthreads and Synchronization
     - Mutexes and Race Conditions
 
+11. **[[11-Data-Structures/00-Index|Data Structures]]**
+    - Linked Lists
+    - Stacks & Queues
+    - Trees (BST)
+
+12. **[[12-Network-Programming/00-Index|Network Programming]]**
+    - Sockets
+    - TCP Server/Client
+    - UDP
+
+13. **[[13-Testing/00-Index|Testing]]**
+    - Unit Testing Basics
+    - Unity Framework
+
+14. **[[14-Secure-Coding/00-Index|Secure Coding]]**
+    - Buffer Overflows
+    - Integer Overflows
+
 ## 🛠️ Prerequisites
 
 Before you start, make sure you have a C compiler installed.
@@ -75,3 +93,5 @@ Before you start, make sure you have a C compiler installed.
 
 ---
 [[Resources/00-Index|External Resources]]
+
+[[../00-Start-Here|Back to Vault Root]]
