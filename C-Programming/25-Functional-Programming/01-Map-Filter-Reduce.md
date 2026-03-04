@@ -1,29 +1,37 @@
 # Map, Filter, Reduce
 
-Higher-order functions take other functions as arguments.
+C supports functional programming concepts through **Function Pointers**.
 
 ## 🗺️ Map
-Apply a function to every element.
+Transforms each element in an array using a function.
 
 ```c
-void map(int *arr, int size, int (*func)(int)) {
-    for (int i = 0; i < size; i++) {
+#include <stdio.h>
+
+// Applies 'func' to every element of 'arr'
+void map(int *arr, size_t size, int (*func)(int)) {
+    for (size_t i = 0; i < size; i++) {
         arr[i] = func(arr[i]);
     }
 }
 
 int square(int x) { return x * x; }
 
-// Usage: map(arr, 5, square);
+int main() {
+    int data[] = {1, 2, 3, 4, 5};
+    map(data, 5, square);
+    // data is now {1, 4, 9, 16, 25}
+}
 ```
 
 ## 🔍 Filter
-Select elements that satisfy a predicate.
+Selects elements that satisfy a predicate.
 
 ```c
-int filter(int *src, int size, int *dest, int (*pred)(int)) {
-    int count = 0;
-    for (int i = 0; i < size; i++) {
+// Copies elements where pred(x) is true into dest. Returns new size.
+size_t filter(const int *src, size_t size, int *dest, int (*pred)(int)) {
+    size_t count = 0;
+    for (size_t i = 0; i < size; i++) {
         if (pred(src[i])) {
             dest[count++] = src[i];
         }
@@ -35,21 +43,25 @@ int is_even(int x) { return x % 2 == 0; }
 ```
 
 ## 📉 Reduce (Fold)
-Combine all elements into one value.
+Accumulates all elements into a single value.
 
 ```c
-int reduce(int *arr, int size, int (*func)(int, int), int init) {
+// Combines elements: func(init, arr[0]) -> acc, func(acc, arr[1]) -> acc...
+int reduce(const int *arr, size_t size, int (*func)(int, int), int init) {
     int result = init;
-    for (int i = 0; i < size; i++) {
+    for (size_t i = 0; i < size; i++) {
         result = func(result, arr[i]);
     }
     return result;
 }
 
 int add(int a, int b) { return a + b; }
-
-// Usage: int sum = reduce(arr, 5, add, 0);
+// Usage: int sum = reduce(data, 5, add, 0);
 ```
+
+## ⚠️ Caveats
+-   **No Closures**: Standard C function pointers cannot capture local variables. You need a "context" pointer (`void *ctx`) to simulate this (see [[02-Closures|Closures]]).
+-   **Performance**: Function pointers prevent inlining (unless LTO is enabled), which can be slower than a simple loop.
 
 ---
 [[00-Index|Back to Functional Index]]

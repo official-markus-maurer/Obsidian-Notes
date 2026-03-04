@@ -13,6 +13,34 @@ Modern compilers like GCC and Clang are incredibly smart. They can automatically
 | `-Os` | Optimize for **Size**. Enables -O2 optimizations that don't increase code size. Great for embedded systems. |
 | `-Ofast` | Disregards strict standard compliance. Example: Fast math (might lose precision). |
 
+## 🚀 Architecture Specific
+
+Tell the compiler to use instructions specific to your CPU (e.g., AVX2).
+
+```bash
+gcc -O2 -march=native -o app main.c
+```
+-   **`-march=native`**: Optimize for the CPU of the machine compiling the code.
+-   **`-mtune=generic`**: Optimize for common CPUs (good for distributing binaries).
+
+## 🛠️ Debugging Flags
+
+-   **`-g`**: Include debug symbols (line numbers, variable names) for GDB/LLDB.
+-   **`-ggdb3`**: Include extra debug info for GDB macros.
+-   **`-fno-omit-frame-pointer`**: Keeps the frame pointer register (`ebp`/`rbp`) intact. Essential for accurate stack traces and profiling (perf).
+
+## ⚠️ Warning Flags (Enable ALL of them)
+
+Catch bugs before they happen.
+
+```bash
+gcc -Wall -Wextra -Wpedantic -Werror ...
+```
+-   **`-Wall`**: All common warnings.
+-   **`-Wextra`**: Even more warnings.
+-   **`-Wpedantic`**: Enforce strict ISO C compliance.
+-   **`-Werror`**: Treat warnings as errors (stops compilation).
+
 ## 🔗 Link Time Optimization (LTO)
 
 Normally, the compiler optimizes one file at a time. LTO allows optimization across the entire program during the linking phase.

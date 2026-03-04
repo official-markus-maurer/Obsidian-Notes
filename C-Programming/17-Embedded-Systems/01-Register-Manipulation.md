@@ -34,22 +34,31 @@ if (REGISTER & (1 << n)) {
 
 ## 🏗️ Structs for Registers
 
-Instead of raw pointers, use structs to map memory.
+Instead of raw pointers, use structs to map memory. This is cleaner and type-safe.
 
 ```c
+#include <stdint.h>
+
 typedef struct {
     volatile uint32_t CR;  // Control Register
     volatile uint32_t SR;  // Status Register
     volatile uint32_t DR;  // Data Register
 } UART_TypeDef;
 
-#define UART1 ((UART_TypeDef *) 0x40011000)
+// Base address of UART1 peripheral
+#define UART1_BASE 0x40011000
+#define UART1 ((UART_TypeDef *) UART1_BASE)
 
 void UART_Send(char c) {
-    while (!(UART1->SR & (1 << 7))); // Wait for Empty
+    // Wait for Transmit Data Register Empty (TXE) bit
+    while (!(UART1->SR & (1 << 7))); 
     UART1->DR = c;
 }
 ```
+
+## ⚠️ Read-Modify-Write (RMW) Cycle
+Be careful with `|=` and `&=` on registers that have "Write 1 to Clear" (W1C) bits or hardware side effects.
+Sometimes reading a register clears it! Always check the datasheet.
 
 ---
 [[00-Index|Back to Embedded Index]]

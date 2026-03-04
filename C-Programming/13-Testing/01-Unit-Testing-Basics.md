@@ -2,13 +2,25 @@
 
 Unit testing involves testing individual units (functions) of source code to determine if they are fit for use.
 
+## 🎯 Why Unit Test?
+1.  **Regression Testing**: Ensure new changes don't break existing functionality.
+2.  **Documentation**: Tests show exactly how a function is expected to behave.
+3.  **Refactoring Confidence**: You can optimize code fearlessly if tests pass.
+
 ## 🧪 Simple Assertion Macro
 
-You can create a basic testing framework using C macros and `assert.h`.
+You can create a basic testing framework using C macros. `assert.h` is good for runtime checks, but for testing, we want a report, not a crash.
 
 ```c
 #include <stdio.h>
-#include <assert.h>
+
+#define ASSERT(cond, msg) do { \
+    if (!(cond)) { \
+        printf("❌ FAILED: %s (%s:%d)\n", msg, __FILE__, __LINE__); \
+        return 0; \
+    } \
+    printf("✅ PASSED: %s\n", msg); \
+} while(0)
 
 // Function to test
 int add(int a, int b) {
@@ -16,25 +28,33 @@ int add(int a, int b) {
 }
 
 // Test Case
-void test_add() {
-    assert(add(2, 3) == 5);
-    assert(add(-1, 1) == 0);
-    printf("test_add passed!\n");
+int test_add() {
+    ASSERT(add(2, 3) == 5, "2 + 3 should be 5");
+    ASSERT(add(-1, 1) == 0, "-1 + 1 should be 0");
+    return 1;
 }
 
 int main() {
-    test_add();
-    printf("All tests passed.\n");
+    if (test_add()) {
+        printf("All tests passed.\n");
+    } else {
+        printf("Some tests failed.\n");
+    }
     return 0;
 }
 ```
 
-## ⚠️ Limitations
--   `assert()` aborts the program on the first failure.
--   No summary of passed/failed tests.
--   Hard to manage hundreds of tests.
+## 🧠 Test Driven Development (TDD)
+1.  **Red**: Write a failing test (because the feature isn't implemented yet).
+2.  **Green**: Write just enough code to make the test pass.
+3.  **Refactor**: Improve the code while keeping tests green.
 
-For larger projects, use a dedicated framework like **Unity**, **CUnit**, or **Check**.
+## ⚠️ Limitations of Simple Macros
+-   Hard to isolate tests (if one crashes, all stop).
+-   No automatic test discovery.
+-   Limited output formatting.
+
+For real projects, use **Unity**, **CUnit**, or **Google Test** (C++ but works for C).
 
 ---
 [[00-Index|Back to Testing Index]]
