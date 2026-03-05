@@ -23,6 +23,17 @@ gcc -O2 -march=native -o app main.c
 -   **`-march=native`**: Optimize for the CPU of the machine compiling the code.
 -   **`-mtune=generic`**: Optimize for common CPUs (good for distributing binaries).
 
+## 🕵️ Inspecting Assembly Output
+
+To see exactly what the compiler is doing (crucial for optimizing hot loops):
+
+```bash
+gcc -S -masm=intel -O2 main.c -o main.s
+```
+-   **`-S`**: Compile only; do not assemble or link. Outputs `.s` (assembly) file.
+-   **`-masm=intel`**: Output Intel syntax (easier to read) instead of AT&T.
+-   **`-fverbose-asm`**: Add comments to the assembly showing which C variables map to which registers.
+
 ## 🛠️ Debugging Flags
 
 -   **`-g`**: Include debug symbols (line numbers, variable names) for GDB/LLDB.

@@ -18,6 +18,26 @@ int main() {
 }
 ```
 
+## 🧠 Under the Hood (The Stack Frame)
+
+When `vulnerable_function` is called, the stack looks like this (simplified):
+
+```
+| Return Address (8 bytes) |  <-- Attack Target
+| Saved RBP (8 bytes)      |
+| buffer[0..9] (10 bytes)  |  <-- Stack grows down, buffer fills up
+| ...                      |
+```
+
+If we write 20 bytes into `buffer`:
+1.  **Bytes 0-9**: Fill `buffer`.
+2.  **Bytes 10-17**: Overwrite `Saved RBP`.
+3.  **Bytes 18-25**: Overwrite **Return Address**.
+
+When the function returns (`ret` instruction), the CPU pops the corrupted Return Address into `RIP` and jumps to it.
+-   **Crash**: If the address is invalid (Segfault).
+-   **Exploit**: If the address points to malicious code (Shellcode).
+
 ## 🛡️ Prevention Techniques
 
 ### 1. Use Safe String Functions

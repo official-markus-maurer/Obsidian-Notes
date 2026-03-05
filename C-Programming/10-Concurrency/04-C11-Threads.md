@@ -29,16 +29,40 @@ int main() {
 }
 ```
 
-## 🔒 Mutexes
+## ⚛️ Atomic Operations (`<stdatomic.h>`)
+
+C11 introduces a standard way to perform atomic operations without locks. This maps directly to assembly instructions like `LOCK XADD` or `LOCK CMPXCHG`.
+
+### Key Types
+-   `atomic_int`, `atomic_long`, `atomic_bool`, etc.
+-   `_Atomic(T)`: Generic wrapper.
+
+### Memory Ordering (`memory_order`)
+This is crucial for understanding how instructions are reordered by the CPU/Compiler.
+
+1.  `memory_order_relaxed`: No synchronization. Just atomicity.
+    -   *Assembly*: Just the instruction (e.g., `INC`).
+2.  `memory_order_acquire`: Acquire fence (Read).
+    -   *Assembly*: Ensures no reads move before this instruction.
+3.  `memory_order_release`: Release fence (Write).
+    -   *Assembly*: Ensures no writes move after this instruction.
+4.  `memory_order_seq_cst`: Sequentially Consistent (Default).
+    -   *Assembly*: Strongest fence (`MFENCE` or `LOCK` prefix). Prevents all reordering.
+
 ```c
-mtx_t mutex;
-mtx_init(&mutex, mtx_plain);
+#include <stdatomic.h>
 
-mtx_lock(&mutex);
-// Critical Section
-mtx_unlock(&mutex);
+atomic_int counter = 0;
 
-mtx_destroy(&mutex);
+void increment() {
+    // Equivalent to: LOCK INC [counter]
+    atomic_fetch_add(&counter, 1);
+}
+
+int load() {
+    // Equivalent to: MOV EAX, [counter] (with fencing)
+    return atomic_load(&counter);
+}
 ```
 
 ## 🆚 C11 Threads vs Pthreads

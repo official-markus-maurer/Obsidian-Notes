@@ -8,7 +8,7 @@ Code from the library is **copied directly** into your executable at compile tim
 
 ### Pros
 -   **Portability**: Executable is self-contained. No external dependencies.
--   **Speed**: Slightly faster startup (no linking at runtime).
+-   **Speed**: Slightly faster startup (no linking at runtime) and allows LTO (Link Time Optimization) across the library boundary.
 
 ### Cons
 -   **Size**: Executable is larger.
@@ -39,8 +39,8 @@ Code is **referenced** by your executable but loaded at **runtime**.
 -   **Updates**: You can update the library file (`.so`/`.dll`) without recompiling the program.
 
 ### Cons
--   **Dependency Hell**: The library must be present on the target system.
--   **Startup**: Slightly slower startup time.
+-   **Dependency Hell**: The library must be present on the target system (and the correct version).
+-   **Startup**: Slower startup time due to symbol resolution.
 
 ### Creating and Using (Linux/GCC)
 
@@ -48,20 +48,40 @@ Code is **referenced** by your executable but loaded at **runtime**.
     ```bash
     gcc -c -fPIC mylib.c -o mylib.o
     ```
+    *PIC allows code to be loaded at any address in memory, which is required for shared libraries.*
+
 2.  **Create Shared Object**:
     ```bash
     gcc -shared -o libmylib.so mylib.o
     ```
 3.  **Link**:
     ```bash
-    gcc main.c -L. -mylib -o app
+    gcc main.c -L. -lmylib -o app
     ```
 4.  **Run**:
-    You may need to set `LD_LIBRARY_PATH`.
+    You may need to set `LD_LIBRARY_PATH` so the loader finds the `.so` file.
     ```bash
     export LD_LIBRARY_PATH=.:$LD_LIBRARY_PATH
     ./app
     ```
+
+## 🧠 Under the Hood: PLT and GOT
+
+How does a program call a function (like `printf`) if it doesn't know the address until runtime?
+
+### 1. Global Offset Table (GOT)
+A table in the data section that stores the **absolute addresses** of global variables and functions.
+-   Initially, it points back to the PLT.
+-   After the first call, the dynamic linker updates it to point to the real function address.
+
+### 2. Procedure Linkage Table (PLT)
+A trampoline code stub in the text section.
+
+**The Flow:**
+1.  Code calls `printf@plt`.
+2.  `printf@plt` jumps to the address stored in the GOT.
+3.  **First Call**: The GOT points back to the resolver code. The dynamic linker runs, finds `printf` in `libc.so`, and updates the GOT.
+4.  **Subsequent Calls**: The GOT points directly to `printf`. This is called **Lazy Binding**.
 
 ---
 [[00-Index|Back to Advanced Index]]

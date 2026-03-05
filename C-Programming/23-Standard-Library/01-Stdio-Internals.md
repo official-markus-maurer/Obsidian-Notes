@@ -21,11 +21,32 @@ When you call `fopen`, it allocates a `FILE` struct that contains:
     -   Data is flushed immediately.
     -   Default for `stderr`.
 
-### Manual Flushing
+### Manual Control (`setvbuf`)
+
+You can change the buffering mode of any stream. This must be done **before** any other operations.
+
+```c
+#include <stdio.h>
+
+int main() {
+    char my_buffer[1024];
+
+    // 1. Disable buffering (useful for debugging crashes)
+    setvbuf(stdout, NULL, _IONBF, 0);
+
+    // 2. Set custom buffer size (optimization)
+    setvbuf(stdin, my_buffer, _IOFBF, sizeof(my_buffer));
+
+    printf("This prints immediately.\n");
+    return 0;
+}
+```
+
+### Manual Flushing (`fflush`)
 Use `fflush(FILE *stream)` to force the buffer to write to the OS.
 
 ```c
-printf("Loading..."); // Might not appear immediately
+printf("Loading..."); // Might not appear immediately (no newline)
 fflush(stdout);       // Forces it to appear
 ```
 
