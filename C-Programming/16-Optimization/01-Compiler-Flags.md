@@ -40,6 +40,18 @@ gcc -S -masm=intel -O2 main.c -o main.s
 -   **`-ggdb3`**: Include extra debug info for GDB macros.
 -   **`-fno-omit-frame-pointer`**: Keeps the frame pointer register (`ebp`/`rbp`) intact. Essential for accurate stack traces and profiling (perf).
 
+## 🛡️ Security Flags (Hardening)
+
+Make your binaries harder to exploit (buffer overflows, ROP chains).
+
+```bash
+gcc -fstack-protector-strong -D_FORTIFY_SOURCE=2 -fPIE -pie -Wl,-z,relro,-z,now ...
+```
+-   **`-fstack-protector-strong`**: Adds stack canaries to prevent buffer overflows.
+-   **`-D_FORTIFY_SOURCE=2`**: Replaces unsafe functions (`strcpy`, `sprintf`) with checked versions at compile time.
+-   **`-fPIE -pie`**: Position Independent Executable. Allows full ASLR randomization.
+-   **`-Wl,-z,relro,-z,now`**: Makes the GOT read-only after startup (prevents GOT overwrite attacks).
+
 ## ⚠️ Warning Flags (Enable ALL of them)
 
 Catch bugs before they happen.

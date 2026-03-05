@@ -36,5 +36,41 @@ The "Flat Profile" shows how much time was spent in each function.
 ```
 Focus your optimization efforts on `complex_calculation`.
 
+## 🔥 `perf` (Linux)
+
+`perf` is a powerful sampling profiler built into the Linux kernel. It has much lower overhead than `gprof` and doesn't require recompiling (though `-g` helps).
+
+### Usage
+
+1.  **Record**:
+    ```bash
+    perf record -g ./myapp
+    ```
+    This creates `perf.data`.
+
+2.  **Report**:
+    ```bash
+    perf report
+    ```
+    Opens an interactive TUI showing where CPU time was spent.
+
+3.  **Annotate**:
+    Press `a` inside the report to see the assembly code with hot instructions highlighted.
+
+### Flame Graphs
+You can visualize `perf` output as a Flame Graph (requires Brendan Gregg's scripts).
+1.  `perf script > out.perf`
+2.  `./stackcollapse-perf.pl out.perf > out.folded`
+3.  `./flamegraph.pl out.folded > flamegraph.svg`
+
+## 🧠 Valgrind (Callgrind)
+
+Valgrind is mostly for memory debugging, but the `callgrind` tool is excellent for profiling instruction counts and cache misses.
+
+```bash
+valgrind --tool=callgrind ./myapp
+```
+View the output (`callgrind.out.PID`) with **KCachegrind** (GUI).
+
 ---
 [[00-Index|Back to Optimization Index]]

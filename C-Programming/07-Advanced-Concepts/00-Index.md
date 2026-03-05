@@ -8,15 +8,16 @@ This section covers more complex features of C that give you fine-grained contro
    - Macros (`#define`)
    - File Inclusion (`#include`)
    - Conditional Compilation (`#ifdef`, `#ifndef`)
+   - **New**: X-Macros and Stringification
 
 2. **[[02-Bit-Manipulation|Bit Manipulation]]**
    - Bitwise Operators (`&`, `|`, `^`, `~`, `<<`, `>>`)
-   - Bit Masks
+   - Bit Masks and Bit Fields
 
 3. **[[03-Error-Handling|Error Handling]]**
    - `errno`
    - `perror` and `strerror`
-   - Exit Status
+   - Thread-safe `strerror_r`
 
 4. **[[04-Command-Line-Arguments|Command Line Arguments]]**
    - `argc` and `argv`
@@ -39,12 +40,10 @@ This section covers more complex features of C that give you fine-grained contro
    - `CMakeLists.txt`
    - Building and Linking
 
-10. **[[10-Advanced-Preprocessor|Advanced Preprocessor]]**
-    - Variadic Macros (`__VA_ARGS__`)
-    - X Macros (Code Generation)
-
-11. **[[11-C23-Features|C23 Features (New)]]**
-    - `auto`, `#embed`, `nullptr`, `typeof`
+10. **[[11-C23-Features|C23 Features (New)]]**
+    - `nullptr`, `constexpr`, `auto`
+    - Standard Attributes (`[[nodiscard]]`)
+    - `_BitInt` and Binary Literals
 
 ---
 **Next Section**: [[../08-Projects/00-Index|Projects]]

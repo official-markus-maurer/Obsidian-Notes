@@ -24,36 +24,22 @@ The arguments for a syscall are different from the function calling convention!
 
 > **Note**: The kernel clobbers `RCX` and `R11`.
 
-## 🚀 Example: Hello World (No libc)
+## 🚀 The Cost of Syscalls
 
-This program writes "Hello" to stdout and exits, without using `printf` or `main`.
+Syscalls are expensive (~1000 cycles). The CPU must:
+1.  Save user-space state.
+2.  Switch to Ring 0 (Kernel Mode).
+3.  Perform security checks (Page Tables).
+4.  Execute the function.
+5.  Restore user-space state.
+6.  Return to Ring 3 (User Mode).
 
-```asm
-; assemble with: nasm -f elf64 hello.asm
-; link with: ld hello.o -o hello
+### vDSO (Virtual Dynamic Shared Object)
 
-section .data
-    msg db "Hello, World!", 0xA  ; String + Newline
-    len equ $ - msg              ; Calculate length
-
-section .text
-    global _start                ; Entry point for linker
-
-_start:
-    ; 1. write(fd, buf, count)
-    ; syscall number 1 is sys_write
-    mov rax, 1          ; sys_write
-    mov rdi, 1          ; fd = 1 (stdout)
-    mov rsi, msg        ; buf = msg
-    mov rdx, len        ; count = len
-    syscall             ; Invoke kernel
-
-    ; 2. exit(status)
-    ; syscall number 60 is sys_exit
-    mov rax, 60         ; sys_exit
-    mov rdi, 0          ; status = 0
-    syscall
-```
+For some frequent syscalls (`gettimeofday`, `getcpu`), the kernel maps a read-only page of kernel memory directly into every process.
+-   The "syscall" becomes a simple function call to this page.
+-   **No context switch**! It's as fast as a normal function call.
+-   **Example**: `clock_gettime`.
 
 ## 📜 Common Syscall Numbers (x86-64)
 

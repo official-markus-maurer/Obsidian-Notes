@@ -26,27 +26,13 @@ Common Error Codes:
 -   `perror("prefix")`: Prints "prefix: error message" to stderr.
 -   `strerror(errno)`: Returns the string description of the error code (requires `<string.h>`).
 
+### Thread-Safe `strerror_r`
+`strerror` is **not** thread-safe (returns a pointer to a static buffer). Use `strerror_r` in multithreaded apps.
+
 ```c
-#include <stdio.h>
-#include <errno.h>
-#include <string.h>
-#include <stdlib.h> // for exit()
-
-int main(void) {
-    FILE *pf = fopen("nonexistent.txt", "rb");
-
-    if (pf == NULL) {
-        // Method 1: perror (Recommended)
-        perror("Error opening file");
-        
-        // Method 2: strerror (Manual formatting)
-        fprintf(stderr, "Error code %d: %s\n", errno, strerror(errno));
-        
-        exit(EXIT_FAILURE); // Portable failure code
-    }
-
-    fclose(pf);
-    return EXIT_SUCCESS;
+char err_buf[256];
+if (strerror_r(errno, err_buf, sizeof(err_buf)) == 0) {
+    fprintf(stderr, "Error: %s\n", err_buf);
 }
 ```
 

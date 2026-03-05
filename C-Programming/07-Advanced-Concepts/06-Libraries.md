@@ -51,19 +51,23 @@ Code is **referenced** by your executable but loaded at **runtime**.
     *PIC allows code to be loaded at any address in memory, which is required for shared libraries.*
 
 2.  **Create Shared Object**:
+    **SONAME**: It is best practice to include a version in the library name (e.g., `libmylib.so.1`).
     ```bash
-    gcc -shared -o libmylib.so mylib.o
+    gcc -shared -Wl,-soname,libmylib.so.1 -o libmylib.so.1.0 mylib.o
     ```
+
 3.  **Link**:
     ```bash
+    ln -s libmylib.so.1.0 libmylib.so
     gcc main.c -L. -lmylib -o app
     ```
-4.  **Run**:
-    You may need to set `LD_LIBRARY_PATH` so the loader finds the `.so` file.
+
+4.  **Run (RPATH)**:
+    Instead of `LD_LIBRARY_PATH`, you can bake the search path into the binary using **RPATH**.
     ```bash
-    export LD_LIBRARY_PATH=.:$LD_LIBRARY_PATH
-    ./app
+    gcc main.c -L. -lmylib -Wl,-rpath,'$ORIGIN' -o app
     ```
+    *`$ORIGIN` tells the loader to look in the same directory as the executable.*
 
 ## 🧠 Under the Hood: PLT and GOT
 

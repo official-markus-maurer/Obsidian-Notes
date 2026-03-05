@@ -24,6 +24,14 @@ while (status_flag == 0) {
 }
 ```
 
+### Deep Dive: Volatile Pointers
+-   `volatile int *p`: Pointer to a volatile int (the value changes).
+-   `int * volatile p`: Volatile pointer to an int (the address changes).
+-   `volatile int * volatile p`: Both the pointer and the value can change.
+
+### Misconceptions
+`volatile` does **not** guarantee atomicity or memory ordering. It only prevents compiler optimizations (reordering/caching). For thread safety, use mutexes or atomics.
+
 ## 🚧 `restrict` (C99)
 
 The `restrict` keyword is a hint to the compiler that for the lifetime of the pointer, only that pointer (or values directly derived from it) will be used to access the object it points to.

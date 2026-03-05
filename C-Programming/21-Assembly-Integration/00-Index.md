@@ -4,55 +4,85 @@ C is often called "portable assembly", but sometimes you need actual assembly fo
 
 ## 📋 Topics
 
+### 🏗️ Basics & Syntax
 1.  **[[01-Assembly-Basics|Assembly Basics (x86-64)]]**
     -   Intel vs AT&T Syntax
     -   Why learn Assembly?
-
-2.  **[[02-Registers-Memory|Registers and Memory]]**
+2.  **[[19-ARM64-Assembly-Basics|ARM64 (AArch64) Basics]]**
+    -   RISC architecture
+    -   Registers (`X0`-`X30`) and Instructions (`LDR`, `STR`)
+3.  **[[02-Registers-Memory|Registers and Memory (x86)]]**
     -   General Purpose Registers (`RAX`, `RBX`...)
     -   Stack Pointer (`RSP`) and Instruction Pointer (`RIP`)
-    -   Flags Register (`RFLAGS`)
-
-3.  **[[03-Common-Instructions|Common Instructions]]**
+4.  **[[21-Data-Types|Data Types & Endianness]]**
+    -   Sizes (`BYTE`, `WORD`, `DWORD`, `QWORD`)
+    -   Little Endian vs Big Endian
+    -   Signed vs Unsigned Arithmetic
+5.  **[[03-Common-Instructions|Common Instructions]]**
     -   Data Movement (`MOV`, `LEA`)
     -   Arithmetic (`ADD`, `SUB`, `MUL`)
-
-4.  **[[11-Floating-Point|Floating Point Assembly]]**
+6.  **[[22-Bit-Manipulation|Bit Manipulation]]**
+    -   Shifts (`SHL`, `SAR`)
+    -   Rotates (`ROL`, `ROR`)
+    -   Byte Swap (`BSWAP`)
+7.  **[[11-Floating-Point|Floating Point Assembly]]**
     -   `XMM` Registers (SSE/AVX)
     -   Scalar Operations (`ADDSS`, `MOVSS`)
 
-5.  **[[07-Control-Flow|Control Flow]]**
+### ⚙️ Control & Stack
+8.  **[[07-Control-Flow|Control Flow]]**
     -   Compare (`CMP`, `TEST`)
     -   Conditional Jumps (`JE`, `JG`, `JNE`)
     -   Implementing Loops
-
-6.  **[[08-Stack-Operations|Stack Operations]]**
+9.  **[[08-Stack-Operations|Stack Operations]]**
     -   `PUSH` and `POP`
     -   Stack Frames (`RBP`)
     -   Alignment requirements
-
-7.  **[[04-Calling-Conventions|Calling Conventions]]**
+10. **[[04-Calling-Conventions|Calling Conventions]]**
     -   System V AMD64 ABI (Linux/Mac)
     -   Microsoft x64 ABI (Windows)
     -   Red Zone and Shadow Space
 
-8.  **[[09-System-Calls|System Calls]]**
+### 🔗 Linking & System
+11. **[[20-ELF-File-Format|The ELF File Format]]**
+    -   Structure of an executable (`.text`, `.data`)
+    -   Relocations and Symbols
+12. **[[13-Position-Independent-Code|Position Independent Code (PIC)]]**
+    -   RIP-Relative Addressing
+    -   Global Offset Table (GOT) and PLT
+13. **[[09-System-Calls|System Calls]]**
     -   Invoking the kernel directly (`syscall`)
+    -   vDSO (Virtual Dynamic Shared Object)
     -   Linux Syscall ABI vs Function Calls
+14. **[[16-Linking-with-C|Linking Assembly with C]]**
+    -   Calling assembly functions from C (`extern`)
+    -   Writing separate `.s` files
 
-9.  **[[05-Inline-Assembly|Inline Assembly]]**
+### 🚀 Optimization & Advanced
+15. **[[14-Assembly-Optimization|Optimization Techniques]]**
+    -   Loop Unrolling
+    -   Vectorization (SIMD)
+    -   Eliminating Branches (`CMOV`)
+16. **[[05-Inline-Assembly|Inline Assembly]]**
     -   GCC `asm` syntax
     -   Input/Output Constraints
-    -   Clobbers and Volatile
-
-10. **[[06-Intrinsics|Compiler Intrinsics]]**
+17. **[[18-Assembly-Macros|Assembly Macros]]**
+    -   Defining NASM macros (`%macro`)
+    -   Local labels (`%%label`)
+18. **[[06-Intrinsics|Compiler Intrinsics]]**
     -   Using built-in functions (`__builtin_popcount`, `__builtin_expect`)
     -   Atomic Operations (`__atomic_fetch_add`)
 
-11. **[[10-Debugging-Assembly|Debugging Assembly]]**
+### 🕵️ Analysis & Security
+19. **[[10-Debugging-Assembly|Debugging Assembly]]**
     -   Using GDB to view disassembly (`layout asm`)
     -   Stepping instructions (`si`, `ni`)
-    -   Inspecting registers (`info registers`)
+20. **[[15-Reverse-Engineering|Reverse Engineering]]**
+    -   Recognizing function prologues/epilogues
+    -   Identifying loops and switch statements
+21. **[[17-Writing-Shellcode|Writing Shellcode]]**
+    -   Avoiding Null Bytes
+    -   Syscall injection
 
 ---
 **Next Section**: [[../22-SIMD/00-Index|SIMD & Vectorization]]

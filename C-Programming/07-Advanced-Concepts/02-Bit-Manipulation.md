@@ -41,6 +41,29 @@ Returns non-zero if the nth bit is 1.
 if (num & (1 << n)) { ... }
 ```
 
+### Extracting a Bit Field
+To get bits 4-7 from a value:
+```c
+// 1. Create mask: 0000 1111 (0xF)
+// 2. Shift value right by 4
+// 3. AND with mask
+unsigned int val = (reg >> 4) & 0xF;
+```
+
+## 🏗️ Bit Fields (Structs)
+
+C allows you to define struct members with specific bit widths.
+
+```c
+struct Flags {
+    unsigned int is_visible : 1;  // 1 bit
+    unsigned int is_active  : 1;  // 1 bit
+    unsigned int priority   : 3;  // 3 bits (0-7)
+    unsigned int reserved   : 27; // Padding
+};
+```
+*Warning: The ordering of bit fields is implementation-defined (endianness matters).*
+
 ## 🧠 Clever Tricks
 
 ### Is Power of 2?

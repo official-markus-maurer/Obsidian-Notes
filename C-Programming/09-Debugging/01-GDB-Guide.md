@@ -64,6 +64,26 @@ Press `Ctrl + X` then `A` (or type `tui enable`) to see the source code in a spl
 -   `layout asm`: Show assembly code.
 -   `layout reg`: Show CPU registers.
 
+## 🐍 Python API
+GDB has a full Python interpreter built-in! You can script complex debugging tasks.
+
+```python
+# Save as script.py
+# Usage: source script.py in GDB
+
+import gdb
+
+class HelloCommand(gdb.Command):
+    """Prints Hello World."""
+    def __init__(self):
+        super(HelloCommand, self).__init__("hello", gdb.COMMAND_USER)
+
+    def invoke(self, arg, from_tty):
+        print("Hello from Python!")
+
+HelloCommand()
+```
+
 ## 💥 Handling Crashes (Core Dumps)
 
 If your program crashes (Segfault), you can debug the "Core Dump" file to see the state of the program at the moment of the crash.

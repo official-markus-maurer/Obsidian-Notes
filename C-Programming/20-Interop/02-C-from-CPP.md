@@ -1,4 +1,4 @@
-# C and C++ Interoperability
+# C from C++
 
 C++ is designed to be mostly compatible with C, but they are different languages. C++ supports features like function overloading and namespaces, which change how functions are named in the compiled object file.
 

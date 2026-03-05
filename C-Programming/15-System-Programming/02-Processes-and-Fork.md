@@ -33,6 +33,18 @@ int main() {
 }
 ```
 
+## 🧠 Memory Layout: Copy-On-Write (COW)
+
+When `fork()` is called, the kernel does **not** copy all memory (Heap, Stack, Data) immediately. That would be too slow.
+
+Instead, it marks all memory pages as **Read-Only**.
+1.  Both Parent and Child share the same physical RAM.
+2.  If either tries to **Write** to a page, a CPU exception (Page Fault) occurs.
+3.  The kernel catches this fault, allocates a **new** physical page, copies the data, and maps it to that process.
+4.  Execution resumes.
+
+This makes `fork()` extremely fast if the child immediately calls `exec()`.
+
 ## 🚀 `exec()` Family
 
 Usually, after forking, the child process wants to run a *different* program. The `exec` functions replace the current process image with a new program.

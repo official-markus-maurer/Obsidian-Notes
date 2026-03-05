@@ -22,6 +22,24 @@ c = _mm_add_ps(a, b);
 ```
 This can result in a **4x speedup** (theoretically) for float operations.
 
+## 🤖 Auto-Vectorization
+
+Modern compilers (`-O3`) try to vectorize loops automatically.
+
+```c
+// Compile with: -O3 -fopt-info-vec
+void add_arrays(float *a, float *b, float *c, int n) {
+    for (int i = 0; i < n; i++) {
+        c[i] = a[i] + b[i];
+    }
+}
+```
+
+### When Auto-Vectorization Fails
+1.  **Data Dependency**: `a[i] = a[i-1] + 1` (Cannot parallelize).
+2.  **Aliasing**: If pointers overlap, the compiler assumes scalar execution is safer. Use `restrict`.
+3.  **Complex Control Flow**: `if` statements inside loops.
+
 ## 🖥️ Architecture Support
 
 ### x86 (Intel/AMD)
@@ -38,6 +56,7 @@ This can result in a **4x speedup** (theoretically) for float operations.
 
 ### ARM
 -   **NEON**: 128-bit registers. Standard on mobile and Apple Silicon.
+-   **SVE (Scalable Vector Extension)**: Variable vector lengths.
 
 ## ⚠️ Challenges
 -   **Alignment**: Data often needs to be aligned (e.g., 16-byte boundary for SSE).

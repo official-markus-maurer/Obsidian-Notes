@@ -60,5 +60,53 @@ void UART_Send(char c) {
 Be careful with `|=` and `&=` on registers that have "Write 1 to Clear" (W1C) bits or hardware side effects.
 Sometimes reading a register clears it! Always check the datasheet.
 
+## 🚀 Assembly Startup Code (Cortex-M)
+
+Before `main()` runs, the microcontroller executes the **Reset Handler** (written in assembly). It must:
+1.  Initialize the **Stack Pointer (`SP`)**.
+2.  Copy **.data** section from Flash to RAM.
+3.  Zero out **.bss** section.
+4.  Call `SystemInit()` and `main()`.
+
+```asm
+.section .text.Reset_Handler
+.weak Reset_Handler
+.type Reset_Handler, %function
+
+Reset_Handler:
+    ldr   sp, =_estack      ; 1. Load Stack Pointer (from Linker Script)
+
+    ; 2. Copy .data from Flash to RAM (Loop)
+    ldr   r0, =_sdata       ; Start of .data in RAM
+    ldr   r1, =_edata       ; End of .data in RAM
+    ldr   r2, =_sidata      ; Start of .data in Flash
+    b     LoopCopyDataInit
+
+CopyDataInit:
+    ldr   r3, [r2], #4      ; Read word from Flash
+    str   r3, [r0], #4      ; Write word to RAM
+
+LoopCopyDataInit:
+    cmp   r0, r1
+    bcc   CopyDataInit
+
+    ; 3. Zero .bss (Loop)
+    ldr   r2, =_sbss
+    ldr   r4, =_ebss
+    movs  r3, #0
+    b     LoopFillZerobss
+
+FillZerobss:
+    str   r3, [r2], #4
+
+LoopFillZerobss:
+    cmp   r2, r4
+    bcc   FillZerobss
+
+    ; 4. Call main
+    bl    main
+    b     .                 ; Infinite loop if main returns
+```
+
 ---
 [[00-Index|Back to Embedded Index]]

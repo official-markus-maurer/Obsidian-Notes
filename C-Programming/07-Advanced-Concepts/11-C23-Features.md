@@ -1,52 +1,74 @@
-# C23: The New Standard
+# C23 Features
 
-C23 (ISO/IEC 9899:2024) is the latest major revision of the C language. It removes many obsolete features and adds quality-of-life improvements inspired by C++.
+C23 is the latest standard of the C programming language (ISO/IEC 9899:2024). It modernizes the language, removing obsolete features and adopting conveniences from C++.
 
-## 🔑 New Keywords
--   `true`, `false`: Now keywords. No need for `<stdbool.h>`.
--   `bool`: Now a keyword (alias for `_Bool`).
--   `alignas`, `alignof`: Alignment specifiers.
--   `static_assert`: Compile-time assertions.
--   `thread_local`: Thread-local storage.
--   `nullptr`: Type-safe null pointer (finally!).
+## 🧹 Removed / Deprecated
+-   **K&R Function Declarations**: `int func(a, b) int a, b; { ... }` is finally dead.
+-   **Trigraphs**: `??=` replaced by `#`.
+-   **`#include <stdnoreturn.h>`**: The `noreturn` keyword is now an attribute.
 
-## 🛠️ New Features
+## 🆕 Keywords & Attributes
 
-### Type Inference (`auto`)
-Like C++, `auto` can now infer the type from the initializer.
+### `nullptr`
+A type-safe null pointer constant (like in C++). Replaces `NULL`.
+`NULL` is typically `(void*)0` or `0`, which can behave unexpectedly in generic macros. `nullptr` is of type `nullptr_t`.
+
 ```c
-auto x = 5;      // int
-auto y = 3.14;   // double
-```
-*Note: This reuses the old `auto` keyword which meant "automatic storage duration" (stack variable), but that meaning was almost never used.*
-
-### Binary Literals & Separators
-```c
-int flags = 0b1010_0011; // Binary with digit separators
+void* ptr = nullptr;
 ```
 
-### `#embed`
-Directly embed binary files into your executable.
+### `constexpr`
+Defines variables that are constant *at compile time*.
+Unlike `const` (which is read-only at runtime), `constexpr` can be used in array sizes and static assertions.
+
 ```c
-const unsigned char icon[] = {
-    #embed "icon.png"
-};
+constexpr int max_size = 100;
+int buffer[max_size]; // Valid
 ```
 
-### Zero Initialization
+### `auto` (Type Inference)
+Allows the compiler to infer the type of a variable from its initializer.
+
 ```c
-struct Point p = {}; // All members set to 0/NULL
+auto x = 10;        // int
+auto y = 3.14;      // double
+auto ptr = &x;      // int*
+```
+*Note: This is strictly type inference, not dynamic typing.*
+
+### `bool`, `true`, `false`
+Native keywords! You no longer need `#include <stdbool.h>`.
+
+## 🏷️ Standard Attributes (`[[...]]`)
+
+Standardized syntax for compiler hints (replacing `__attribute__` and `#pragma`).
+
+-   `[[nodiscard]]`: Warn if return value is ignored.
+-   `[[maybe_unused]]`: Suppress "unused variable" warnings.
+-   `[[deprecated]]`: Mark function/variable as deprecated.
+-   `[[noreturn]]`: Function never returns (e.g., `exit`).
+-   `[[unsequenced]]`: Function has no side effects (pure).
+
+```c
+[[nodiscard]] int compute() { return 42; }
+
+[[deprecated("Use new_func instead")]]
+void old_func() {}
 ```
 
-### `typeof`
-Getting the type of an expression.
+## 🔢 Binary Literals & Separators
+Better readability for constants.
+
 ```c
-typeof(x) y = x + 1;
+int bin = 0b1010_0011; // 0b prefix and _ separator
 ```
 
-## 🗑️ Removed Features
--   **K&R Function Definitions**: `void f(a) int a; {}` is gone.
--   **Trigraphs**: `??=` for `#` is gone.
+## �️ BitInt
+Fixed-width integers for specific bit counts (useful for FPGA/hardware).
+
+```c
+_BitInt(12) sensor_val; // 12-bit integer
+```
 
 ---
 [[00-Index|Back to Advanced Index]]

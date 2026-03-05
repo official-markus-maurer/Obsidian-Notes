@@ -29,6 +29,87 @@ Avoid side effects in arguments.
 SQUARE(i++); // Expands to ((i++) * (i++)) -> Undefined Behavior!
 ```
 
+## 🪄 Advanced Features
+
+### 1. Stringification (`#`)
+Converts a macro argument into a string literal.
+
+```c
+#define PRINT_INT(x) printf(#x " = %d\n", x)
+
+int count = 42;
+PRINT_INT(count);
+// Expands to: printf("count" " = %d\n", count);
+// Output: count = 42
+```
+
+### 2. Token Pasting (`##`)
+Concatenates two tokens into one. Useful for generating variable names.
+
+```c
+#define DECLARE_STRUCT(type) struct type##_s { type value; };
+
+DECLARE_STRUCT(int);
+// Expands to: struct int_s { int value; };
+```
+
+### 3. Variadic Macros (`...` and `__VA_ARGS__`)
+Macros that accept a variable number of arguments (C99).
+
+```c
+#define LOG(fmt, ...) printf("[LOG] " fmt "\n", __VA_ARGS__)
+
+LOG("Value: %d", 10);
+// Expands to: printf("[LOG] " "Value: %d" "\n", 10);
+```
+
+### 4. X-Macros
+A technique to maintain parallel lists of data (e.g., Enum + String Array) without duplication.
+
+**Define the data:**
+```c
+#define COLORS \
+    X(RED)     \
+    X(GREEN)   \
+    X(BLUE)
+```
+
+**Generate Enum:**
+```c
+#define X(name) name,
+enum Color { COLORS };
+#undef X
+// Expands to: enum Color { RED, GREEN, BLUE, };
+```
+
+**Generate Strings:**
+```c
+#define X(name) #name,
+const char *ColorNames[] = { COLORS };
+#undef X
+// Expands to: const char *ColorNames[] = { "RED", "GREEN", "BLUE", };
+```
+
+### 5. Generic Selection (`_Generic`) (C11)
+Allows function overloading based on argument type. This is how `tgmath.h` works.
+
+```c
+#define print(x) _Generic((x), \
+    int: print_int, \
+    double: print_double, \
+    default: print_unknown \
+)(x)
+
+void print_int(int x) { printf("Int: %d\n", x); }
+void print_double(double x) { printf("Double: %f\n", x); }
+void print_unknown(...) { printf("Unknown type\n"); }
+
+int main() {
+    print(10);      // Calls print_int
+    print(3.14);    // Calls print_double
+}
+```
+
 ## 📂 File Inclusion (`#include`)
 -   `#include <stdio.h>`: Searches system directories (e.g., `/usr/include`).
 -   `#include "myheader.h"`: Searches the current directory first.

@@ -1,6 +1,6 @@
-# Calling C from Python
+# C from Python
 
-Python is slow. C is fast. You can speed up Python code by rewriting performance-critical sections in C and calling them using `ctypes` or `CFFI`.
+Python is slow. C is fast. You can speed up Python code by rewriting performance-critical sections in C and calling them using `ctypes`, `CFFI`, or the native Python API.
 
 ## 1. Write C Code (`mylib.c`)
 The C functions must be "exported" (visible to the linker). On Linux/macOS, all non-static functions are exported by default. On Windows, you need `__declspec(dllexport)`.
@@ -65,9 +65,14 @@ lib.print_array.argtypes = [ctypes.POINTER(ctypes.c_int), ctypes.c_int]
 lib.print_array(arr, 5)
 ```
 
+## 🧩 Python.h (Extension Modules)
+For deeper integration (creating Python objects from C), you can write a **Python Extension Module** using `#include <Python.h>`.
+This is more complex but allows you to write `import mymodule` directly without `ctypes`.
+
 ## ⚠️ Common Pitfalls
 1.  **ABI Mismatch**: 32-bit Python cannot load 64-bit DLLs (and vice versa).
 2.  **Memory Management**: If C allocates memory (`malloc`), Python doesn't know how to free it. You must export a `free_memory()` function in C and call it from Python.
+3.  **GIL (Global Interpreter Lock)**: If your C code runs for a long time, it blocks other Python threads. Use `Py_BEGIN_ALLOW_THREADS` / `Py_END_ALLOW_THREADS` (in extension modules) to release the GIL.
 
 ---
 [[00-Index|Back to Interop Index]]

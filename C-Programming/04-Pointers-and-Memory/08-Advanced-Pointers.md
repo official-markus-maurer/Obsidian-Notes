@@ -60,11 +60,31 @@ Using `const` with pointers can be tricky. Read declarations from right to left.
     ptr = &var2; // Error!
     ```
 
-3.  **Constant Pointer to Constant** (`const int * const`):
-    -   Neither the data nor the pointer can be changed.
-    ```c
-    const int * const ptr = &var;
-    ```
+## 🚫 The `restrict` Keyword (C99)
+
+`restrict` tells the compiler that a pointer is the **only** way to access the object it points to. This allows aggressive optimizations.
+
+```c
+void add_arrays(int *restrict a, int *restrict b, int *restrict c, int n) {
+    for (int i = 0; i < n; i++) {
+        a[i] = b[i] + c[i];
+    }
+}
+```
+Here, the compiler assumes `a`, `b`, and `c` do not overlap (alias). It can vectorize the loop freely.
+Without `restrict`, if `a == b`, writing to `a[i]` might change `b[i+1]`, forcing the compiler to reload `b` every iteration.
+
+## ⚠️ Strict Aliasing Rule
+
+Standard C says pointers of incompatible types cannot alias the same memory location (except `char*`).
+
+```c
+float f = 3.14;
+int *i = (int*)&f; // ⚠️ Undefined Behavior (Strict Aliasing Violation)
+printf("%d\n", *i);
+```
+The compiler assumes `int*` and `float*` point to different memory. It might reorder reads/writes, causing bugs.
+**Solution**: Use `memcpy` or a `union` for type punning.
 
 ---
 [[00-Index|Back to Pointers Index]]
